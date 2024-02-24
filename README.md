@@ -1,21 +1,14 @@
 # HexDiff
 
-**TODO: Add description**
+Tool that diffs changes accross different hex package versions.
 
-## Installation
+## TODO
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `hex_diff` to your list of dependencies in `mix.exs`:
+- `hexdiff check 1.2.3 2.0.0`
+    - Package loader
+    - API diffing
+    - Static analysis vs loading code
+    - Spitting out differences
 
-```elixir
-def deps do
-  [
-    {:hex_diff, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/hex_diff>.
+## Package loader
 

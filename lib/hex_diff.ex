@@ -3,16 +3,15 @@ defmodule HexDiff do
   Documentation for `HexDiff`.
   """
 
-  @doc """
-  Hello world.
+  # HexDiff.run(:httpoison, "v1.0.0", "v2.2.1")
+  #
+  # DIFF: httpoison v1.0.0 - v2.2.1
+  #
+  # MAJOR
+  #   - HTTPoison.request/3
+  # MINOR
+  #   + HTTPoison.request/4
 
-  ## Examples
-
-      iex> HexDiff.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def run(package, version_a, version_b) do
   end
 end
