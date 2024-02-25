@@ -13,6 +13,9 @@ defmodule HexDiff.Fetcher do
 
   def checkout(name, url, tag) do
     path = Path.join(["packages", name, tag])
-    Mix.SCM.Git.checkout(checkout: path, dest: path, git: url, tag: tag)
+    Mix.SCM.Git.checkout(checkout: "./packages", dest: path, git: url, tag: tag)
+  end
+
+  def load() do
   end
 end
