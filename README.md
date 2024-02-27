@@ -8,4 +8,11 @@ Tool that diffs changes accross different hex package versions.
 - [ ] Load local dependency
 - [ ] Caching
 - [ ] Audit package usage
+- [ ] Exclude "internal" modules
+
+## Resources 
+
+https://github.com/hexpm/hex/blob/v2.0.6/lib/hex/api/package.ex
+https://github.com/elixir-lang/elixir/blob/v1.16.1/lib/mix/lib/mix/scm/git.ex
+https://hexdocs.pm/sourceror/Sourceror.Zipper.html#find/3
 

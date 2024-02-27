@@ -8,12 +8,18 @@ defmodule HexDiff.SCM do
     File.mkdir_p!(opts[:dest])
 
     File.cd!(opts[:dest], fn ->
-      git!(["clone", "--depth=1", opts[:origin]])
+      git!(["clone", opts[:origin]])
     end)
   end
 
-  def read() do
-    Path.wildcard("./packages/**/*.ex")
+  def read(package, version) do
+    path = Path.join(["packages", package])
+
+    File.cd!(path, fn ->
+      git!(["checkout", version])
+    end)
+
+    Path.wildcard(Path.join([path, "**/*.ex"]))
     |> Enum.map(&File.read!/1)
     |> Enum.map(&Code.string_to_quoted!/1)
     |> AST.parse()
