@@ -4,6 +4,8 @@ defmodule HexDiff.SCM do
   # origin
   # tag
   # name
+
+  @spec checkout(keyword()) :: :ok
   def checkout(opts) do
     File.mkdir_p!(opts[:dest])
 
@@ -12,6 +14,7 @@ defmodule HexDiff.SCM do
     end)
   end
 
+  @spec read(String.t(), String.t()) :: [String.t()]
   def read(package, version) do
     path = Path.join(["packages", package])
 
@@ -21,8 +24,6 @@ defmodule HexDiff.SCM do
 
     Path.wildcard(Path.join([path, "**/*.ex"]))
     |> Enum.map(&File.read!/1)
-    |> Enum.map(&Code.string_to_quoted!/1)
-    |> AST.parse()
   end
 
   defp default_into() do
