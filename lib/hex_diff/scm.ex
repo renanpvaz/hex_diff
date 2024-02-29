@@ -19,7 +19,7 @@ defmodule HexDiff.SCM do
     path = Path.join(["packages", package])
 
     File.cd!(path, fn ->
-      git!(["checkout", version])
+      git!(["checkout", "v" <> version])
     end)
 
     Path.wildcard(Path.join([path, "**/*.ex"]))
