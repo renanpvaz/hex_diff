@@ -1,7 +1,4 @@
 defmodule HexDiff do
-  alias HexDiff.AST
-  alias HexDiff.SemVer
-
   @moduledoc """
   Documentation for `HexDiff`.
   """
@@ -29,8 +26,28 @@ defmodule HexDiff do
     beam_files = load_source(package_name, version_a)
     _ = load_source(package_name, version_b)
 
-    IO.inspect(beam_files)
-    Code.fetch_docs(Enum.at(beam_files, 0)) |> IO.inspect()
+    beam_files
+    |> Enum.map(fn file -> {Path.basename(file), Code.fetch_docs(file)} end)
+    |> Enum.reject(fn
+      {_, {:docs_v1, _, _language, _format, :hidden, _, _}} -> true
+      _ -> false
+    end)
+    |> Enum.map(fn
+      {module, {:docs_v1, _, _language, _format, _moduledoc, _meta, docs_list}} ->
+        {module, find_public_members(docs_list)}
+
+      _ ->
+        []
+    end)
+  end
+
+  defp find_public_members(docs_list) do
+    docs_list
+    |> Enum.reject(fn
+      {_def, _, _, :hidden, _} -> true
+      _ -> false
+    end)
+    |> Enum.map(fn {member, _, _, _, _} -> member end)
   end
 
   defp load_source(package, version) do
