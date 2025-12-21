@@ -21,6 +21,7 @@ defmodule HexDiff.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:hex_core, "~> 0.12.0"},
       {:sourceror, "~> 1.0"}
     ]
   end

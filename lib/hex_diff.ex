@@ -1,5 +1,4 @@
 defmodule HexDiff do
-  alias HexDiff.SCM
   alias HexDiff.AST
   alias HexDiff.SemVer
 
@@ -7,7 +6,7 @@ defmodule HexDiff do
   Documentation for `HexDiff`.
   """
 
-  # HexDiff.run(:httpoison, "v1.0.0", "v2.2.1")
+  # HexDiff.run("jason", "1.4.4", "1.2.2")
   #
   # DIFF: httpoison v1.0.0 - v2.2.1
   #
@@ -15,49 +14,47 @@ defmodule HexDiff do
   #   - HTTPoison.request/3
   # MINOR
   #   + HTTPoison.request/4
+  #
+  def run_2(package_name, version_a, version_b) do
+    File.mkdir_p!(".hex_diff")
 
-  def run(package_name, version_a, version_b) do
-    {:ok, package} = resolve_package(package_name, version_a, version_b)
+    File.cd!(".hex_diff", fn ->
+      IO.puts("fetching #{package_name} v#{version_a}")
+      fetch_package!(package_name, version_a)
 
-    IO.inspect(package)
+      IO.puts("fetching #{package_name} v#{version_b}")
+      fetch_package!(package_name, version_b)
+    end)
 
-    SCM.checkout(dest: "packages", origin: package.github)
-
-    (SCM.read(package.name, version_a) ++
-       SCM.read(package.name, version_b))
+    (load_source(package_name, version_a) ++ load_source(package_name, version_b))
+    |> tap(fn source -> IO.inspect(length(source), label: "loaded") end)
     |> Enum.flat_map(&AST.parse/1)
     |> Enum.group_by(& &1.name)
-    |> Enum.map(fn {name, [module_a, module_b]} -> {name, diff_module(module_a, module_b)} end)
+    |> Enum.map(fn
+      {name, [module_a, module_b]} -> {name, diff_module(module_a, module_b)}
+      {name, [_module_a]} -> {name, %{removals: 0, additions: 0}}
+    end)
     |> SemVer.classify()
   end
 
-  defp resolve_package(package, version_a, version_b) do
-    with {:ok, {200, result, _}} <- Hex.API.Package.get(nil, package),
-         {:ok, package} <- parse_package_response(result),
-         {:ok, _} <- check_versions(package, [version_a, version_b]) do
-      {:ok, package}
-    else
-      {:ok, {404, _}} -> {:error, :package_not_found}
-      error -> IO.inspect(error)
-    end
+  defp load_source(package, version) do
+    qualified_name = "#{package}-#{version}"
+
+    File.cd!(".hex_diff", fn ->
+      Path.join([qualified_name, "**/*.ex"])
+      |> Path.wildcard()
+      |> Enum.map(&File.read!/1)
+    end)
   end
 
-  defp parse_package_response(result) do
-    versions = Enum.map(result["releases"], & &1["version"])
+  defp fetch_package!(name, version) do
+    qualified_name = "#{name}-#{version}"
 
-    {:ok,
-     %{
-       name: result["name"],
-       github: result["meta"]["links"]["GitHub"],
-       versions: versions
-     }}
-  end
+    {:ok, {200, _, tarball}} =
+      :hex_repo.get_tarball(:hex_core.default_config(), name, version)
 
-  defp check_versions(package, versions) do
-    case Enum.find(versions, &(&1 not in package.versions)) do
-      nil -> {:ok, versions}
-      version -> {:error, {:invalid_version, version}}
-    end
+    {:ok, %{outer_checksum: _checksum, metadata: _metadata}} =
+      :hex_tarball.unpack(tarball, String.to_charlist(qualified_name))
   end
 
   def diff_module(a, b) do
