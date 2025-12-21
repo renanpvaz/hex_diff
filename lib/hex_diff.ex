@@ -15,7 +15,7 @@ defmodule HexDiff do
   # MINOR
   #   + HTTPoison.request/4
   #
-  def run_2(package_name, version_a, version_b) do
+  def run(package_name, version_a, version_b) do
     File.mkdir_p!(".hex_diff")
 
     File.cd!(".hex_diff", fn ->
@@ -26,24 +26,30 @@ defmodule HexDiff do
       fetch_package!(package_name, version_b)
     end)
 
-    (load_source(package_name, version_a) ++ load_source(package_name, version_b))
-    |> tap(fn source -> IO.inspect(length(source), label: "loaded") end)
-    |> Enum.flat_map(&AST.parse/1)
-    |> Enum.group_by(& &1.name)
-    |> Enum.map(fn
-      {name, [module_a, module_b]} -> {name, diff_module(module_a, module_b)}
-      {name, [_module_a]} -> {name, %{removals: 0, additions: 0}}
-    end)
-    |> SemVer.classify()
+    beam_files = load_source(package_name, version_a)
+    _ = load_source(package_name, version_b)
+
+    IO.inspect(beam_files)
+    Code.fetch_docs(Enum.at(beam_files, 0)) |> IO.inspect()
   end
 
   defp load_source(package, version) do
     qualified_name = "#{package}-#{version}"
 
-    File.cd!(".hex_diff", fn ->
-      Path.join([qualified_name, "**/*.ex"])
-      |> Path.wildcard()
-      |> Enum.map(&File.read!/1)
+    ".hex_diff"
+    |> Path.join(qualified_name)
+    |> File.cd!(fn ->
+      File.mkdir_p!("ebin")
+
+      {:ok, modules, _} =
+        "**/*.ex"
+        |> Path.wildcard()
+        |> Kernel.ParallelCompiler.compile_to_path("ebin", return_diagnostics: true)
+
+      IO.puts("loaded #{length(modules)} modules")
+
+      Path.wildcard("ebin/*.beam")
+      |> Enum.map(&Path.expand/1)
     end)
   end
 
