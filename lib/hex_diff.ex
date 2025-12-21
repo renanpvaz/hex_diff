@@ -1,4 +1,6 @@
 defmodule HexDiff do
+  alias HexDiff.Module
+
   @moduledoc """
   Documentation for `HexDiff`.
   """
@@ -12,22 +14,48 @@ defmodule HexDiff do
   # MINOR
   #   + HTTPoison.request/4
   #
-  def run(package_name, version_a, version_b) do
+  def run(package_name, newer_version, older_version) do
     File.mkdir_p!(".hex_diff")
 
     File.cd!(".hex_diff", fn ->
-      IO.puts("fetching #{package_name} v#{version_a}")
-      fetch_package!(package_name, version_a)
+      IO.puts("fetching #{package_name} v#{newer_version}")
+      fetch_package!(package_name, newer_version)
 
-      IO.puts("fetching #{package_name} v#{version_b}")
-      fetch_package!(package_name, version_b)
+      IO.puts("fetching #{package_name} v#{older_version}")
+      fetch_package!(package_name, older_version)
     end)
 
-    beam_files = load_source(package_name, version_a)
-    _ = load_source(package_name, version_b)
+    new_files = load_source(package_name, newer_version)
+    old_files = load_source(package_name, older_version)
 
-    beam_files
-    |> Enum.map(fn file -> {Path.basename(file), Code.fetch_docs(file)} end)
+    new_modules = beam_to_modules(new_files)
+    old_modules = beam_to_modules(old_files)
+
+    all_modules = Map.merge(new_modules, old_modules)
+
+    IO.puts("diffing modules")
+
+    Enum.reduce(all_modules, %{added: %{}, removed: %{}, kept: %{}}, fn
+      {module, _}, acc ->
+        new = Map.get(new_modules, module)
+        old = Map.get(old_modules, module)
+
+        {key, value} =
+          cond do
+            new && old -> {:kept, new}
+            new -> {:added, new}
+            old -> {:removed, old}
+          end
+
+        Map.update(acc, key, nil, &Map.put(&1, module, value))
+    end)
+  end
+
+  defp beam_to_modules(files) do
+    files
+    |> Enum.map(fn file ->
+      {Path.basename(file) |> String.replace_trailing(".beam", ""), Code.fetch_docs(file)}
+    end)
     |> Enum.reject(fn
       {_, {:docs_v1, _, _language, _format, :hidden, _, _}} -> true
       _ -> false
@@ -35,10 +63,8 @@ defmodule HexDiff do
     |> Enum.map(fn
       {module, {:docs_v1, _, _language, _format, _moduledoc, _meta, docs_list}} ->
         {module, find_public_members(docs_list)}
-
-      _ ->
-        []
     end)
+    |> Map.new()
   end
 
   defp find_public_members(docs_list) do
