@@ -1,4 +1,6 @@
 defmodule HexDiff.Resolvers.Compiler do
+  alias HexDiff.ModuleMap
+
   @type module_map() :: map()
 
   @spec resolve(String.t(), String.t()) :: module_map()
@@ -12,32 +14,16 @@ defmodule HexDiff.Resolvers.Compiler do
 
     package
     |> load_source(version)
-    |> beam_to_modulemap()
+    |> beam_to_module_map()
   end
 
-  defp beam_to_modulemap(files) do
-    files
-    |> Enum.map(fn file ->
-      {Path.basename(file) |> String.replace_trailing(".beam", ""), Code.fetch_docs(file)}
-    end)
-    |> Enum.reject(fn
-      {_, {:docs_v1, _, _language, _format, :hidden, _, _}} -> true
-      _ -> false
-    end)
-    |> Enum.map(fn
-      {module, {:docs_v1, _, _language, _format, _moduledoc, _meta, docs_list}} ->
-        {module, find_public_members(docs_list)}
-    end)
-    |> Map.new()
-  end
+  defp beam_to_module_map(files) do
+    Enum.reduce(files, ModuleMap.new(), fn file, module_map ->
+      name = Path.basename(file) |> String.replace_trailing(".beam", "")
 
-  defp find_public_members(docs_list) do
-    docs_list
-    |> Enum.reject(fn
-      {_def, _, _, :hidden, _} -> true
-      _ -> false
+      ModuleMap.put_from_code_docs(module_map, name, Code.fetch_docs(file))
     end)
-    |> Enum.map(fn {member, _, _, _, _} -> member end)
+    |> IO.inspect()
   end
 
   defp load_source(package, version) do
