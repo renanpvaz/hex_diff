@@ -1,9 +1,7 @@
 defmodule HexDiff.Resolvers.Compiler do
   alias HexDiff.ModuleMap
 
-  @type module_map() :: map()
-
-  @spec resolve(String.t(), String.t()) :: module_map()
+  @spec resolve(package :: String.t(), version :: String.t()) :: ModuleMap.t()
   def resolve(package, version) do
     File.mkdir_p!(".hex_diff")
 
@@ -23,7 +21,6 @@ defmodule HexDiff.Resolvers.Compiler do
 
       ModuleMap.put_from_code_docs(module_map, name, Code.fetch_docs(file))
     end)
-    |> IO.inspect()
   end
 
   defp load_source(package, version) do

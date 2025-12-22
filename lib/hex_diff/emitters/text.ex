@@ -1,7 +1,8 @@
 defmodule HexDiff.Outputs.Text do
   alias HexDiff.Diff
 
-  def encode(%Diff{} = diff) do
+  @spec encode(Diff.t()) :: String.t()
+  def encode(diff) do
     """
     ADDED
 

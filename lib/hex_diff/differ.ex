@@ -2,6 +2,7 @@ defmodule HexDiff.Differ do
   alias HexDiff.Diff
   alias HexDiff.ModuleMap
 
+  @spec compare(ModuleMap.t(), ModuleMap.t()) :: Diff.t()
   def compare(new, old) do
     modules_diff = diff(ModuleMap.names(new), ModuleMap.names(old))
 

@@ -1,5 +1,4 @@
 defmodule HexDiff.SCM do
-  alias HexDiff.AST
   # dest
   # origin
   # tag
