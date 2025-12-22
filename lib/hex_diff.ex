@@ -35,19 +35,35 @@ defmodule HexDiff do
 
     IO.puts("diffing modules")
 
-    Enum.reduce(all_modules, %{added: %{}, removed: %{}, kept: %{}}, fn
-      {module, _}, acc ->
-        new = Map.get(new_modules, module)
-        old = Map.get(old_modules, module)
+    modules_diff = diff(Map.keys(all_modules), Map.keys(new_modules), Map.keys(old_modules))
 
-        {key, value} =
+    IO.inspect(modules_diff)
+
+    members_diff =
+      Enum.map(modules_diff.kept, fn module ->
+        new_members = Map.get(new_modules, module)
+        old_members = Map.get(old_modules, module)
+
+        {module, diff(new_members ++ old_members, new_members, old_members)}
+      end)
+
+    %{modules_diff | kept: members_diff}
+  end
+
+  defp diff(all_values, new_values, old_values) do
+    Enum.reduce(all_values, %{added: [], removed: [], kept: []}, fn
+      element, acc ->
+        new? = element in new_values
+        old? = element in old_values
+
+        key =
           cond do
-            new && old -> {:kept, new}
-            new -> {:added, new}
-            old -> {:removed, old}
+            new? && old? -> :kept
+            new? -> :added
+            old? -> :removed
           end
 
-        Map.update(acc, key, nil, &Map.put(&1, module, value))
+        Map.update(acc, key, nil, &[element | &1])
     end)
   end
 
