@@ -15,6 +15,8 @@ defmodule HexDiff do
   #   + HTTPoison.request/4
   #
   def run(package_name, newer_version, older_version) do
+    IO.puts("DIFF: #{package_name} #{older_version} - #{newer_version}")
+
     File.mkdir_p!(".hex_diff")
 
     File.cd!(".hex_diff", fn ->
@@ -37,8 +39,6 @@ defmodule HexDiff do
 
     modules_diff = diff(Map.keys(all_modules), Map.keys(new_modules), Map.keys(old_modules))
 
-    IO.inspect(modules_diff)
-
     members_diff =
       Enum.map(modules_diff.kept, fn module ->
         new_members = Map.get(new_modules, module)
@@ -47,7 +47,47 @@ defmodule HexDiff do
         {module, diff(new_members ++ old_members, new_members, old_members)}
       end)
 
-    %{modules_diff | kept: members_diff}
+    emit_result(%{modules_diff | kept: members_diff})
+  end
+
+  defp emit_result(diff) do 
+    IO.puts("\nADDED")
+
+    diff.added
+    |> Enum.map(& "+ #{&1}\n")
+    |> IO.puts()
+
+    diff.kept
+    |> Enum.filter(fn {_module, diff} -> diff.added != [] end)
+    |> Enum.map(fn {module, diff} -> 
+      "= #{module}\n#{Enum.map(diff.added, & "+ #{format(&1)}\n")}" 
+    end)
+    |> IO.puts()
+
+    IO.puts("\nREMOVED")
+
+    diff.removed
+    |> Enum.map(& "- #{&1}\n")
+    |> IO.puts()
+
+    diff.kept
+    |> Enum.filter(fn {_module, diff} -> diff.removed != [] end)
+    |> Enum.map(fn {module, diff} -> 
+      "= #{module}\n#{Enum.map(diff.removed, & "- #{format(&1)}\n")}" 
+    end)
+    |> IO.puts()
+  end
+
+  defp format({:function, name, arity}) do
+    "#{name}/#{arity}"
+  end
+
+  defp format({:type, name, _arity}) do
+    "@type #{name}()"
+  end
+
+  defp format({type, name, _arity}) do
+    "#{type} #{name}"
   end
 
   defp diff(all_values, new_values, old_values) do
@@ -120,16 +160,5 @@ defmodule HexDiff do
 
     {:ok, %{outer_checksum: _checksum, metadata: _metadata}} =
       :hex_tarball.unpack(tarball, String.to_charlist(qualified_name))
-  end
-
-  def diff_module(a, b) do
-    functions_a = a.public
-    functions_b = b.public
-
-    # TODO optimize
-    removals = functions_a -- functions_b
-    additions = functions_b -- functions_a
-
-    %{removals: removals, additions: additions}
   end
 end
