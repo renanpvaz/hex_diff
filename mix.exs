@@ -23,7 +23,8 @@ defmodule HexDiff.MixProject do
     [
       {:floki, "~> 0.38.0"},
       {:hex_core, "~> 0.12.0"},
-      {:sourceror, "~> 1.0"}
+      {:sourceror, "~> 1.0"},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 end

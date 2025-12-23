@@ -8,6 +8,6 @@ defmodule HexDiff.Hex do
   end
 
   defp client do
-    Application.get_env(:hex_diff, :hex_client, HexDiff.HexCore)
+    Application.get_env(:hex_diff, :hex_client, HexDiff.Hex.HexCore)
   end
 end

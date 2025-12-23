@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.21.3">
+    <meta name="project" content="jason v1.2.2">
+    <title>Jason.Encoder — jason v1.2.2</title>
+    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
+      <link rel="canonical" href="https://hexdocs.pm/jason/Jason.Encoder.html" />
+    <script src="dist/sidebar_items-d50e6e05e4.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName">
+jason      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.2.2
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">jason v1.2.2</small>
+Jason.Encoder <small>protocol</small>          <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encoder.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Protocol controlling how a value is encoded to JSON.</p>
+<h2 id="module-deriving" class="section-heading">
+  <a href="#module-deriving" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Deriving
+</h2>
+
+<p>The protocol allows leveraging the Elixir&#39;s <code class="inline">@derive</code> feature
+to simplify protocol implementation in trivial cases. Accepted
+options are:</p>
+<ul>
+<li><code class="inline">:only</code> - encodes only values of specified keys.
+</li>
+<li><code class="inline">:except</code> - encodes all struct fields except specified keys.
+</li>
+</ul>
+<p>By default all keys except the <code class="inline">:__struct__</code> key are encoded.</p>
+<h2 id="module-example" class="section-heading">
+  <a href="#module-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+
+<p>Let&#39;s assume a presence of the following struct:</p>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">Test</span><span class="w"> </span><span class="k" data-group-id="5801297083-1">do</span><span class="w">
+  </span><span class="kd">defstruct</span><span class="w"> </span><span class="p" data-group-id="5801297083-2">[</span><span class="ss">:foo</span><span class="p">,</span><span class="w"> </span><span class="ss">:bar</span><span class="p">,</span><span class="w"> </span><span class="ss">:baz</span><span class="p" data-group-id="5801297083-2">]</span><span class="w">
+</span><span class="k" data-group-id="5801297083-1">end</span></code></pre>
+<p>If we were to call <code class="inline">@derive Jason.Encoder</code> just before <code class="inline">defstruct</code>,
+an implementation similar to the following implementation would be generated:</p>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Jason.Encoder</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="nc">Test</span><span class="w"> </span><span class="k" data-group-id="2479574118-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">encode</span><span class="p" data-group-id="2479574118-2">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="2479574118-2">)</span><span class="w"> </span><span class="k" data-group-id="2479574118-3">do</span><span class="w">
+    </span><span class="nc">Jason.Encode</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2479574118-4">(</span><span class="nc">Map</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="2479574118-5">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2479574118-6">[</span><span class="ss">:foo</span><span class="p">,</span><span class="w"> </span><span class="ss">:bar</span><span class="p">,</span><span class="w"> </span><span class="ss">:baz</span><span class="p" data-group-id="2479574118-6">]</span><span class="p" data-group-id="2479574118-5">)</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="2479574118-4">)</span><span class="w">
+  </span><span class="k" data-group-id="2479574118-3">end</span><span class="w">
+</span><span class="k" data-group-id="2479574118-1">end</span></code></pre>
+<p>If we called <code class="inline">@derive {Jason.Encoder, only: [:foo]}</code>, an implementation
+similar to the following implementation would be generated:</p>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Jason.Encoder</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="nc">Test</span><span class="w"> </span><span class="k" data-group-id="2013371849-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">encode</span><span class="p" data-group-id="2013371849-2">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="2013371849-2">)</span><span class="w"> </span><span class="k" data-group-id="2013371849-3">do</span><span class="w">
+    </span><span class="nc">Jason.Encode</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2013371849-4">(</span><span class="nc">Map</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="2013371849-5">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2013371849-6">[</span><span class="ss">:foo</span><span class="p" data-group-id="2013371849-6">]</span><span class="p" data-group-id="2013371849-5">)</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="2013371849-4">)</span><span class="w">
+  </span><span class="k" data-group-id="2013371849-3">end</span><span class="w">
+</span><span class="k" data-group-id="2013371849-1">end</span></code></pre>
+<p>If we called <code class="inline">@derive {Jason.Encoder, except: [:foo]}</code>, an implementation
+similar to the following implementation would be generated:</p>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Jason.Encoder</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="nc">Test</span><span class="w"> </span><span class="k" data-group-id="6414006013-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">encode</span><span class="p" data-group-id="6414006013-2">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="6414006013-2">)</span><span class="w"> </span><span class="k" data-group-id="6414006013-3">do</span><span class="w">
+    </span><span class="nc">Jason.Encode</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="6414006013-4">(</span><span class="nc">Map</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="6414006013-5">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6414006013-6">[</span><span class="ss">:bar</span><span class="p">,</span><span class="w"> </span><span class="ss">:baz</span><span class="p" data-group-id="6414006013-6">]</span><span class="p" data-group-id="6414006013-5">)</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="6414006013-4">)</span><span class="w">
+  </span><span class="k" data-group-id="6414006013-3">end</span><span class="w">
+</span><span class="k" data-group-id="6414006013-1">end</span></code></pre>
+<p>The actually generated implementations are more efficient computing some data
+during compilation similar to the macros from the <a href="Jason.Helpers.html"><code class="inline">Jason.Helpers</code></a> module.</p>
+<h2 id="module-explicit-implementation" class="section-heading">
+  <a href="#module-explicit-implementation" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Explicit implementation
+</h2>
+
+<p>If you wish to implement the protocol fully yourself, it is advised to
+use functions from the <a href="Jason.Encode.html"><code class="inline">Jason.Encode</code></a> module to do the actual iodata
+generation - they are highly optimized and verified to always produce
+valid JSON.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:opts/0">opts()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode/2">encode(value, opts)</a>
+  </div>
+    <div class="summary-synopsis"><p>Encodes <code class="inline">value</code> to JSON.</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:opts/0">
+  <div class="detail-header">
+    <a href="#t:opts/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">opts()</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encoder.ex#L63" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>opts() :: <a href="Jason.Encode.html#t:opts/0">Jason.Encode.opts</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="t:t/0">
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">t()</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encoder.ex#L62" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>t() :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="encode/2">
+  <div class="detail-header">
+    <a href="#encode/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">encode(value, opts)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encoder.ex#L74" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>encode(<a href="#t:t/0">t</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Encodes <code class="inline">value</code> to JSON.</p>
+<p>The argument <code class="inline">opts</code> is opaque - it can be passed to various functions in
+<a href="Jason.Encode.html"><code class="inline">Jason.Encode</code></a> (or to the protocol function itself) for encoding values to JSON.</p>
+  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>
