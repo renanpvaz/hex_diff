@@ -1,5 +1,5 @@
 defmodule HexDiff.Resolvers.Compiler do
-  alias HexDiff.Module
+  alias HexDiff.AST
 
   @spec resolve(package :: String.t(), version :: String.t()) :: [Module.t()]
   def resolve(package, version) do
@@ -17,9 +17,7 @@ defmodule HexDiff.Resolvers.Compiler do
 
   defp beam_to_module(files) do
     Enum.reduce(files, [], fn file, acc ->
-      name = Path.basename(file) |> String.replace_trailing(".beam", "")
-
-      case Module.from_code_docs(name, Code.fetch_docs(file)) do
+      case AST.from_beam(file) do
         {:ok, module} -> [module | acc]
         {:error, _} -> acc
       end
