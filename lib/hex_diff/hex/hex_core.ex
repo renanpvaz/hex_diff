@@ -17,14 +17,16 @@ defmodule HexDiff.Hex.HexCore do
   end
 
   @impl Client
-  def fetch_docs(name, version) do
-    path = "#{name}-#{version}/docs"
+  def fetch_docs(name, version, dest) do
+    path = Path.join(dest, "#{name}-#{version}/docs")
 
-    {:ok, {200, _, tarball}} =
-      :hex_repo.get_docs(:hex_core.default_config(), name, version)
-
-    :ok = :hex_tarball.unpack_docs(tarball, String.to_charlist(path))
-
-    Path.expand(path)
+    with {:ok, {200, _, tarball}} <-
+           :hex_repo.get_docs(:hex_core.default_config(), name, version),
+         :ok = :hex_tarball.unpack_docs(tarball, String.to_charlist(path)) do
+      {:ok, Path.expand(path)}
+    else
+      {:ok, {_status, _, _}} -> {:error, :unexpected_status}
+      _ -> {:error, :unexpected_error}
+    end
   end
 end

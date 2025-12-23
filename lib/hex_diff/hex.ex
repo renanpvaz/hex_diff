@@ -3,8 +3,8 @@ defmodule HexDiff.Hex do
     client().fetch_source(package, version)
   end
 
-  def fetch_docs(package, version) do
-    client().fetch_docs(package, version)
+  def fetch_docs(package, version, dest) do
+    client().fetch_docs(package, version, dest)
   end
 
   defp client do

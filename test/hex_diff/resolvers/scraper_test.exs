@@ -6,13 +6,18 @@ defmodule HexDiff.Resolvers.ScraperTest do
   import Mox
 
   describe "resolve/2" do
-    for version <- ["1.4.4", "1.2.2", "1.0.0"] do
+    for {version, module_count} <- [
+          {"1.4.4", 10},
+          {"1.2.2", 8},
+          {"1.0.0", 7}
+        ] do
       test "parses documents from different exdoc versions (jason v#{version})" do
-        expect(HexDiff.Hex.ClientMock, :fetch_docs, fn _, _ ->
-          "../test/fixtures/jason-#{unquote(version)}-docs"
+        expect(HexDiff.Hex.ClientMock, :fetch_docs, fn _, _, _ ->
+          {:ok, "test/fixtures/jason-#{unquote(version)}-docs"}
         end)
 
-        assert Scraper.resolve("jason", unquote(version))
+        assert {:ok, modules} = Scraper.resolve("jason", unquote(version))
+        assert length(modules) == unquote(module_count)
       end
     end
   end
