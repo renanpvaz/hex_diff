@@ -8,13 +8,7 @@ defmodule HexDiff do
   """
 
   # HexDiff.run("jason", "1.4.4", "1.2.2")
-  #
-  # DIFF: httpoison v1.0.0 - v2.2.1
-  #
-  # MAJOR
-  #   - HTTPoison.request/3
-  # MINOR
-  #   + HTTPoison.request/4
+  # HexDiff.run("req", "0.5.5", "0.4.14")
   #
   def run(package_name, newer_version, older_version) do
     IO.puts("DIFF: #{package_name} #{older_version} - #{newer_version}")
@@ -23,8 +17,6 @@ defmodule HexDiff do
     old_modules = Resolvers.Scraper.resolve(package_name, older_version)
 
     diff = Differ.compare(new_modules, old_modules)
-
-    IO.inspect(diff)
 
     IO.puts(Outputs.Text.encode(diff))
   end

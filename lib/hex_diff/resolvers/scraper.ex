@@ -1,5 +1,6 @@
 defmodule HexDiff.Resolvers.Scraper do
   alias HexDiff.AST
+  alias HexDiff.Hex
 
   @spec resolve(package :: String.t(), version :: String.t()) :: [Module.t()]
   def resolve(package, version) do
@@ -7,7 +8,7 @@ defmodule HexDiff.Resolvers.Scraper do
 
     File.cd!(".hex_diff", fn ->
       IO.puts("fetching docs for #{package} v#{version}")
-      path = fetch_docs!(package, version)
+      path = Hex.fetch_docs(package, version)
 
       File.cd!(path, &parse_api/0)
     end)
@@ -36,15 +37,5 @@ defmodule HexDiff.Resolvers.Scraper do
       end)
 
     AST.from_signatures(name, signatures)
-  end
-
-  defp fetch_docs!(name, version) do
-    path = "#{name}-#{version}/docs"
-
-    {:ok, {200, _, tarball}} =
-      :hex_repo.get_docs(:hex_core.default_config(), name, version)
-
-    :ok = :hex_tarball.unpack_docs(tarball, String.to_charlist(path))
-    path
   end
 end
