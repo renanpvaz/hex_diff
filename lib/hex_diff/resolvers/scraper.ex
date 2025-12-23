@@ -1,9 +1,12 @@
 defmodule HexDiff.Resolvers.Scraper do
-  alias HexDiff.AST
   alias HexDiff.Hex
 
+  @type result :: {String.t(), [signature()]}
+
+  @type signature :: {type :: String.t(), content :: String.t()}
+
   @spec resolve(package :: String.t(), version :: String.t()) ::
-          {:ok, [Module.t()]} | {:error, any()}
+          {:ok, [result()]} | {:error, any()}
   def resolve(package, version) do
     with :ok <- File.mkdir_p(".hex_diff"),
          {:ok, path} <- Hex.fetch_docs(package, version, ".hex_diff"),
@@ -39,19 +42,34 @@ defmodule HexDiff.Resolvers.Scraper do
   end
 
   defp parse_module_tree(name, tree) do
-    signatures =
-      tree
-      |> Floki.find(".detail-header")
-      |> Enum.map(fn detail ->
-        signature = Floki.find(detail, ".signature") |> Floki.text()
-        macro? = Floki.find(detail, ".note") |> Floki.text() |> Kernel.=~("macro")
-        # TODO: parse spec
-        type = if macro?, do: "macro", else: "function"
-
-        {type, signature}
+    function_signatures =
+      Floki.find(tree, "#functions")
+      |> parse_signatures()
+      |> Enum.map(fn {sig, note} ->
+        if note =~ "macro" do
+          {"macro", sig}
+        else
+          {"function", sig}
+        end
       end)
 
-    AST.from_signatures(name, signatures)
+    type_signatures =
+      Floki.find(tree, "#types")
+      |> parse_signatures()
+      |> Enum.map(fn {sig, _note} -> {"type", sig} end)
+
+    {name, function_signatures ++ type_signatures}
+  end
+
+  defp parse_signatures(tree) do
+    tree
+    |> Floki.find(".detail-header")
+    |> Enum.map(fn detail ->
+      signature = Floki.find(detail, ".signature") |> Floki.text()
+      note = Floki.find(detail, ".note") |> Floki.text()
+
+      {signature, note}
+    end)
   end
 
   defp parse_html(path) do

@@ -7,6 +7,7 @@ defmodule HexDiff.Hex.HexCore do
   def fetch_source(name, version) do
     qualified_name = "#{name}-#{version}"
 
+    # TODO: error handling
     {:ok, {200, _, tarball}} =
       :hex_repo.get_tarball(:hex_core.default_config(), name, version)
 

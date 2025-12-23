@@ -42,6 +42,7 @@ defmodule HexDiff.AST do
 
   defp parse_signature({type, content}) do
     with true <- type in ["macro", "function", "callback", "type"],
+         # TODO: sanitize content
          {:ok, {name, _meta, args}} <- Code.string_to_quoted(content) do
       {:ok, %Member{name: name, type: String.to_existing_atom(type), arity: length(args)}}
     else
