@@ -1,38 +1,53 @@
 defmodule HexDiff.Differ do
   alias HexDiff.Diff
-  alias HexDiff.ModuleMap
 
-  @spec compare(ModuleMap.t(), ModuleMap.t()) :: Diff.t()
-  def compare(new, old) do
-    modules_diff = diff(ModuleMap.names(new), ModuleMap.names(old))
+  @spec compare([Module.t()], [Module.t()]) :: Diff.t()
+  def compare(new_modules, old_modules) do
+    module_diff = diff_with(new_modules, old_modules, & &1.name, fn new, old -> {new, old} end)
 
-    members_diff =
-      Enum.map(modules_diff.kept, fn module ->
-        new_members = ModuleMap.get(new, module)
-        old_members = ModuleMap.get(old, module)
-
-        {module, diff(new_members, old_members)}
-      end)
-
-    %{modules_diff | kept: members_diff}
+    %Diff{
+      added: module_diff.added,
+      removed: module_diff.removed,
+      kept: Enum.map(module_diff.kept, fn {new, old} -> {new, diff_module(new, old)} end)
+    }
   end
 
-  defp diff(new_values, old_values) do
-    all_values = Enum.uniq(new_values ++ old_values)
+  def diff_with(new_items, old_items, key_fun, on_conflict) do
+    old_map = Enum.into(old_items, %{}, fn item -> {key_fun.(item), item} end)
+    new_map = Enum.into(new_items, %{}, fn item -> {key_fun.(item), item} end)
 
-    Enum.reduce(all_values, %Diff{}, fn
-      element, acc ->
-        new? = element in new_values
-        old? = element in old_values
+    all_keys = MapSet.union(MapSet.new(Map.keys(old_map)), MapSet.new(Map.keys(new_map)))
 
-        key =
-          cond do
-            new? && old? -> :kept
-            new? -> :added
-            old? -> :removed
-          end
+    Enum.reduce(all_keys, %Diff{}, fn key, acc ->
+      case {new_map[key], old_map[key]} do
+        {new_item, nil} ->
+          %{acc | added: [new_item | acc.added]}
 
-        Map.update(acc, key, nil, &[element | &1])
+        {nil, old_item} ->
+          %{acc | removed: [old_item | acc.removed]}
+
+        {same, same} ->
+          %{acc | kept: [on_conflict.(same, same) | acc.kept]}
+
+        {new_item, old_item} ->
+          # TODO: changed
+          %{acc | kept: [{new_item, old_item} | acc.kept]}
+      end
     end)
+  end
+
+  defp diff_module(new, old) do
+    diff_with(
+      new.members,
+      old.members,
+      fn member ->
+        if member.type in [:function, :macro] do
+          {:function_or_macro, member.name, member.arity}
+        else
+          {member.type, member.name, member.arity}
+        end
+      end,
+      fn new, _old -> new end
+    )
   end
 end

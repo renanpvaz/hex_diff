@@ -1,7 +1,7 @@
 defmodule HexDiff.Resolvers.Compiler do
-  alias HexDiff.ModuleMap
+  alias HexDiff.Module
 
-  @spec resolve(package :: String.t(), version :: String.t()) :: ModuleMap.t()
+  @spec resolve(package :: String.t(), version :: String.t()) :: [Module.t()]
   def resolve(package, version) do
     File.mkdir_p!(".hex_diff")
 
@@ -12,14 +12,17 @@ defmodule HexDiff.Resolvers.Compiler do
 
     package
     |> load_source(version)
-    |> beam_to_module_map()
+    |> beam_to_module()
   end
 
-  defp beam_to_module_map(files) do
-    Enum.reduce(files, ModuleMap.new(), fn file, module_map ->
+  defp beam_to_module(files) do
+    Enum.reduce(files, [], fn file, acc ->
       name = Path.basename(file) |> String.replace_trailing(".beam", "")
 
-      ModuleMap.put_from_code_docs(module_map, name, Code.fetch_docs(file))
+      case Module.from_code_docs(name, Code.fetch_docs(file)) do
+        {:ok, module} -> [module | acc]
+        {:error, _} -> acc
+      end
     end)
   end
 

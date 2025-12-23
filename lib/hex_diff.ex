@@ -24,6 +24,8 @@ defmodule HexDiff do
 
     diff = Differ.compare(new_modules, old_modules)
 
+    IO.inspect(diff)
+
     IO.puts(Outputs.Text.encode(diff))
   end
 end

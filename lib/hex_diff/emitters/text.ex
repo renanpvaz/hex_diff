@@ -4,29 +4,30 @@ defmodule HexDiff.Outputs.Text do
   @spec encode(Diff.t()) :: String.t()
   def encode(diff) do
     """
+
     ADDED
+    #{Enum.map(diff.added, &"+ #{&1.name}\n")}
+    #{changes(diff.kept, & &1.added, "+")}
 
-    #{Enum.map(diff.added, &"+ #{&1}\n")}
-
-    #{diff.kept |> Enum.filter(fn {_module, diff} -> diff.added != [] end) |> Enum.map(fn {module, diff} -> "= #{module}\n#{Enum.map(diff.added, &"  + #{format(&1)}\n")}" end)}
-
-     REMOVED
-
-    #{Enum.map(diff.removed, &"- #{&1}\n")}
-
-    #{diff.kept |> Enum.filter(fn {_module, diff} -> diff.removed != [] end) |> Enum.map(fn {module, diff} -> "= #{module}\n#{Enum.map(diff.removed, &"- #{format(&1)}\n")}" end)}
+    REMOVED
+    #{Enum.map(diff.removed, &"- #{&1.name}\n")}
+    #{changes(diff.kept, & &1.removed, "-")}
     """
   end
 
-  defp format({:function, name, arity}) do
-    "#{name}/#{arity}"
+  defp changes(diff, get_changes, prefix) do
+    diff
+    |> Enum.filter(fn {_module, diff} -> get_changes.(diff) != [] end)
+    |> Enum.map(fn {module, diff} ->
+      "= #{module.name}\n#{Enum.map(get_changes.(diff), &"  #{prefix} #{format(&1)}\n")}"
+    end)
   end
 
-  defp format({:type, name, _arity}) do
-    "@type #{name}()"
-  end
-
-  defp format({type, name, _arity}) do
-    "#{type} #{name}"
+  defp format(member) do
+    case member.type do
+      type when type in [:function, :macro] -> "#{member.name}/#{member.arity}"
+      :type -> "@type #{member.name}()"
+      _ -> "#{member.type} #{member.name}"
+    end
   end
 end
