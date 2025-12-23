@@ -24,9 +24,7 @@ defmodule HexDiff.AST do
     end
   end
 
-  @type signature :: {type :: String.t(), content :: String.t()}
-
-  @spec from_signatures(String.t(), [signature()]) :: Module.t()
+  @spec from_signatures(String.t(), [{type :: String.t(), content :: String.t()}]) :: Module.t()
   def from_signatures(name, signatures) do
     %Module{
       name: name,
