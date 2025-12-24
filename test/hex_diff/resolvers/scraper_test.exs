@@ -28,17 +28,17 @@ defmodule HexDiff.Resolvers.ScraperTest do
 
       assert {:ok, modules} = Scraper.resolve("jason", "1.4.4")
       assert {_, signatures} = Enum.find(modules, &(elem(&1, 0) == "Jason.Encoder"))
-      assert {"function", _} = Enum.find(signatures, &(elem(&1, 1) =~ "encode("))
+      assert {"function", _, _} = Enum.find(signatures, &(elem(&1, 1) =~ "encode("))
     end
 
-    test "correctly identifies typespecs" do
+    test "correctly identifies types" do
       expect(HexDiff.Hex.ClientMock, :fetch_docs, fn _, _, _ ->
         {:ok, "test/fixtures/jason-1.4.4-docs"}
       end)
 
       assert {:ok, modules} = Scraper.resolve("jason", "1.4.4")
       assert {_, signatures} = Enum.find(modules, &(elem(&1, 0) == "Jason.Encoder"))
-      assert {"type", _} = Enum.find(signatures, &(elem(&1, 1) == "t()"))
+      assert {"type", _, _} = Enum.find(signatures, &(elem(&1, 1) == "t()"))
     end
 
     test "correctly identifies macros" do
@@ -48,7 +48,7 @@ defmodule HexDiff.Resolvers.ScraperTest do
 
       assert {:ok, modules} = Scraper.resolve("jason", "1.4.4")
       assert {_, signatures} = Enum.find(modules, &(elem(&1, 0) == "Jason.Sigil"))
-      assert {"macro", _} = Enum.find(signatures, &(elem(&1, 1) =~ "sigil"))
+      assert {"macro", _, _} = Enum.find(signatures, &(elem(&1, 1) =~ "sigil"))
     end
   end
 end

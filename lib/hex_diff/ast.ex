@@ -38,13 +38,27 @@ defmodule HexDiff.AST do
     }
   end
 
-  defp parse_signature({type, content}) do
+  defp parse_signature({type, content, typespec}) do
     with true <- type in ["macro", "function", "callback", "type"],
          # TODO: sanitize content
-         {:ok, {name, _meta, args}} <- Code.string_to_quoted(content) do
-      {:ok, %Member{name: name, type: String.to_existing_atom(type), arity: length(args)}}
+         {:ok, {name, _meta, args}} <- Code.string_to_quoted(content),
+         {:ok, typespec} <- parse_typespec(typespec) do
+      {:ok,
+       %Member{
+         name: name,
+         type: String.to_existing_atom(type),
+         arity: length(args),
+         typespec: typespec
+       }}
     else
       _ -> {:error, :invalid_signature}
+    end
+  end
+
+  defp parse_typespec(spec) do
+    case Code.string_to_quoted(spec) do
+      {:ok, spec} -> {:ok, spec}
+      _error -> {:ok, nil}
     end
   end
 end

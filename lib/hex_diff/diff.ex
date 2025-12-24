@@ -1,3 +1,3 @@
 defmodule HexDiff.Diff do
-  defstruct added: [], removed: [], kept: []
+  defstruct added: [], removed: [], preserved: [], changed: []
 end

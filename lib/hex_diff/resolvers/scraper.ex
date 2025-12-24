@@ -1,6 +1,8 @@
 defmodule HexDiff.Resolvers.Scraper do
   alias HexDiff.Hex
 
+  # TODO: separate resolution from extraction
+
   @type result :: {String.t(), [signature()]}
 
   @type signature :: {type :: String.t(), content :: String.t()}
@@ -45,30 +47,31 @@ defmodule HexDiff.Resolvers.Scraper do
     function_signatures =
       Floki.find(tree, "#functions")
       |> parse_signatures()
-      |> Enum.map(fn {sig, note} ->
+      |> Enum.map(fn {sig, note, typespec} ->
         if note =~ "macro" do
-          {"macro", sig}
+          {"macro", sig, typespec}
         else
-          {"function", sig}
+          {"function", sig, typespec}
         end
       end)
 
     type_signatures =
       Floki.find(tree, "#types")
       |> parse_signatures()
-      |> Enum.map(fn {sig, _note} -> {"type", sig} end)
+      |> Enum.map(fn {sig, _note, typespec} -> {"type", sig, typespec} end)
 
     {name, function_signatures ++ type_signatures}
   end
 
   defp parse_signatures(tree) do
     tree
-    |> Floki.find(".detail-header")
+    |> Floki.find(".detail")
     |> Enum.map(fn detail ->
       signature = Floki.find(detail, ".signature") |> Floki.text()
       note = Floki.find(detail, ".note") |> Floki.text()
+      typespec = Floki.find(detail, ".specs") |> Floki.text()
 
-      {signature, note}
+      {signature, note, typespec}
     end)
   end
 

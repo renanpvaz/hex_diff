@@ -22,12 +22,15 @@ defmodule HexDiff do
         AST.from_signatures(name, signatures)
       end)
 
+
     old_modules =
       Enum.map(old_scraped_data, fn {name, signatures} ->
         AST.from_signatures(name, signatures)
       end)
 
     diff = Differ.compare(new_modules, old_modules)
+
+    IO.inspect(diff.changed)
 
     IO.puts(Outputs.Text.encode(diff))
   end
