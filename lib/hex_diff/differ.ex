@@ -26,7 +26,7 @@ defmodule HexDiff.Differ do
           %{acc | preserved: [same | acc.preserved]}
 
         {new_item, old_item} ->
-          %{acc | changed: [diff_module(new_item, old_item) | acc.changed]}
+          %{acc | changed: [{new_item, diff_module(new_item, old_item)} | acc.changed]}
       end
     end)
   end
@@ -75,6 +75,7 @@ defmodule HexDiff.Differ do
     end
   end
 
+  # TODO: create typespec struct early, carry down values
   def compare_typespecs({:@, _, [{type, _, [new_content]}]}, {:@, _, [{type, _, [old_content]}]}) do
     compare_typespecs(new_content, old_content)
   end
@@ -106,7 +107,7 @@ defmodule HexDiff.Differ do
        |> Enum.reduce([], fn
          {new, old}, acc ->
            case compare_typespecs(new, old) do
-             {:ok, diff} -> acc ++ [diff]
+             {:ok, diff} -> acc ++ List.wrap(diff)
              {:error, _} -> acc
            end
        end)}
@@ -126,6 +127,15 @@ defmodule HexDiff.Differ do
 
       true ->
         {:error, {:unexpected_comparison, new, old}}
+    end
+  end
+
+  def compare_typespecs(new, old) do
+    cond do
+      is_nil(new) and is_nil(old) -> {:ok, :unchanged}
+      is_nil(new) -> {:ok, %Typespec{new_spec: nil, old_spec: old, change: {nil, nil}}}
+      is_nil(old) -> {:ok, %Typespec{new_spec: new, old_spec: nil, change: {nil, nil}}}
+      true -> {:error, :no_match}
     end
   end
 end
