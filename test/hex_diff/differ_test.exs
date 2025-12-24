@@ -45,7 +45,7 @@ defmodule HexDiff.DifferTest do
       }
 
       assert %Diff{changed: [module_diff]} = Differ.compare([new], [old])
-      assert %Diff{changed: [change]} = module_diff
+      assert {%Module{}, %Diff{changed: [change]}} = module_diff
       assert {%Member{name: "add"}, [%Typespec{change: {:integer, :number}}, :unchanged]} = change
     end
   end
