@@ -84,6 +84,7 @@ defmodule HexDiff.Differ do
     {:error, :type_mismatch}
   end
 
+  # TODO: check return type
   def compare_typespecs(
         {:"::", _, [{name, _, new_args}, _return]},
         {:"::", _, [{name, _, old_args}, _]}
