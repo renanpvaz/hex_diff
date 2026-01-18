@@ -8,7 +8,6 @@ defmodule HexDiff.DifferTest do
   alias HexDiff.AST.Member
 
   describe "compare/2" do
-    @tag :wip
     test "identifies deeply nested typespec changes" do
       {:ok, t1} =
         Code.string_to_quoted("""
@@ -46,7 +45,9 @@ defmodule HexDiff.DifferTest do
 
       assert %Diff{changed: [module_diff]} = Differ.compare([new], [old])
       assert {%Module{}, %Diff{changed: [change]}} = module_diff
-      assert {%Member{name: "add"}, [%Typespec{change: {:integer, :number}}, :unchanged]} = change
+
+      assert {%Member{name: "add"},
+              [%Typespec{change: {:integer, :number}}, :unchanged, :unchanged]} = change
     end
   end
 
@@ -104,7 +105,7 @@ defmodule HexDiff.DifferTest do
         @spec add(float(), number()) :: number()
         """)
 
-      assert {:ok, [change, :unchanged]} = Differ.compare_typespecs(t1, t2)
+      assert {:ok, [change, :unchanged, :unchanged]} = Differ.compare_typespecs(t1, t2)
       assert %Typespec{change: {:number, :float}, new_spec: _, old_spec: _} = change
     end
 
@@ -122,7 +123,22 @@ defmodule HexDiff.DifferTest do
           ) :: number()
         """)
 
-      assert {:ok, [:unchanged, :unchanged]} = Differ.compare_typespecs(t1, t2)
+      assert {:ok, [:unchanged, :unchanged, :unchanged]} = Differ.compare_typespecs(t1, t2)
+    end
+
+    test "identifies return type changes" do
+      {:ok, t1} =
+        Code.string_to_quoted("""
+        @spec add(number(), number()) :: number()
+        """)
+
+      {:ok, t2} =
+        Code.string_to_quoted("""
+        @spec add(number(), number()) :: float()
+        """)
+
+      assert {:ok, [:unchanged, :unchanged, change]} = Differ.compare_typespecs(t1, t2)
+      assert %Typespec{change: {:number, :float}, new_spec: _, old_spec: _} = change
     end
   end
 end

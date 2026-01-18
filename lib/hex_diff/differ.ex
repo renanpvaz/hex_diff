@@ -75,7 +75,9 @@ defmodule HexDiff.Differ do
     end
   end
 
-  # TODO: create typespec struct early, carry down values
+  # TODO: 
+  # create typespec struct early, carry down values
+  # this is to prevent incomplete information in the output
   def compare_typespecs({:@, _, [{type, _, [new_content]}]}, {:@, _, [{type, _, [old_content]}]}) do
     compare_typespecs(new_content, old_content)
   end
@@ -84,12 +86,11 @@ defmodule HexDiff.Differ do
     {:error, :type_mismatch}
   end
 
-  # TODO: check return type
   def compare_typespecs(
-        {:"::", _, [{name, _, new_args}, _return]},
-        {:"::", _, [{name, _, old_args}, _]}
+        {:"::", _, [{name, _, new_args}, new_return]},
+        {:"::", _, [{name, _, old_args}, old_return]}
       ) do
-    compare_typespecs(new_args, old_args)
+    compare_typespecs(new_args ++ [new_return], old_args ++ [old_return])
   end
 
   def compare_typespecs(
