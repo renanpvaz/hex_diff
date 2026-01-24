@@ -1,0 +1,708 @@
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.18.1">
+    <title>Jason – jason v1.0.0</title>
+    <link rel="stylesheet" href="dist/app-c922dbe7ef.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/jason/Jason.html" />
+    
+    <script src="dist/sidebar_items-d5832c3074.js"></script>
+    
+    
+    
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<section class="sidebar">
+
+  
+  <a href="readme.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        jason
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.0.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+    
+
+    
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">jason v1.0.0</small>
+        Jason
+        
+          <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+        
+      </h1>
+
+      
+        <section id="moduledoc">
+          <p>A blazing fast JSON parser and generator in pure Elixir.</p>
+
+        </section>
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+          
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:decode_opt/0">decode_opt()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:encode_opt/0">encode_opt()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:escape/0">escape()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:keys/0">keys()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:maps/0">maps()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:strings/0">strings()</a>
+  </div>
+  
+</div>
+
+  </div>
+
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decode/2">decode(input, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Parses a JSON value from <code class="inline">input</code> iodata</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decode!/2">decode!(input, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Parses a JSON value from <code class="inline">input</code> iodata</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode/2">encode(input, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Generates JSON corresponding to <code class="inline">input</code></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode!/2">encode!(input, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Generates JSON corresponding to <code class="inline">input</code></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode_to_iodata/2">encode_to_iodata(input, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Generates JSON corresponding to <code class="inline">input</code> and returns iodata</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode_to_iodata!/2">encode_to_iodata!(input, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Generates JSON corresponding to <code class="inline">input</code> and returns iodata</p>
+</div>
+  
+</div>
+
+  </div>
+
+
+          
+
+        </section>
+      
+
+      
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Types
+          </h1>
+          <div class="types-list">
+            <div class="detail" id="t:decode_opt/0">
+  
+  
+  <div class="detail-header">
+    <a href="#t:decode_opt/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">decode_opt()</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L15" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>decode_opt() :: {:keys, <a href="#t:keys/0">keys</a>()} | {:strings, <a href="#t:strings/0">strings</a>()}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:encode_opt/0">
+  
+  
+  <div class="detail-header">
+    <a href="#t:encode_opt/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">encode_opt()</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L9" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>encode_opt() :: {:escape, <a href="#t:escape/0">escape</a>()} | {:maps, <a href="#t:maps/0">maps</a>()}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:escape/0">
+  
+  
+  <div class="detail-header">
+    <a href="#t:escape/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">escape()</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L6" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>escape() :: :json | :unicode_safe | :html_safe | :javascript_safe</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:keys/0">
+  
+  
+  <div class="detail-header">
+    <a href="#t:keys/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">keys()</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L11" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>keys() :: :atoms | :atoms! | :strings | :copy | (<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() -> term())</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:maps/0">
+  
+  
+  <div class="detail-header">
+    <a href="#t:maps/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">maps()</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L7" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>maps() :: :naive | :strict</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:strings/0">
+  
+  
+  <div class="detail-header">
+    <a href="#t:strings/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">strings()</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L13" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>strings() :: :reference | :copy</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+
+          </div>
+        </section>
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="decode/2">
+  
+  
+    <span id="decode/1"></span>
+  
+  <div class="detail-header">
+    <a href="#decode/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">decode(input, opts \\ [])</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L46" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>decode(iodata(), [<a href="#t:decode_opt/0">decode_opt</a>()]) ::
+  {:ok, term()} |
+  {:error, <a href="Jason.DecodeError.html#t:t/0">Jason.DecodeError.t</a>()}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Parses a JSON value from <code class="inline">input</code> iodata.</p>
+<h2 id="decode/2-options" class="section-heading">
+  <a href="#decode/2-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+
+<ul>
+<li><p><code class="inline">:keys</code> - controls how keys in objects are decoded. Possible values are:</p>
+<ul>
+<li><code class="inline">:strings</code> (default) - decodes keys as binary strings,
+</li>
+<li><code class="inline">:atoms</code> - keys are converted to atoms using <a href="https://hexdocs.pm/elixir/String.html#to_atom/1"><code class="inline">String.to_atom/1</code></a>,
+</li>
+<li><code class="inline">:atoms!</code> - keys are converted to atoms using <a href="https://hexdocs.pm/elixir/String.html#to_existing_atom/1"><code class="inline">String.to_existing_atom/1</code></a>,
+</li>
+<li>custom decoder - additionally a function accepting a string and returning a key
+  is accepted.
+</li>
+</ul>
+</li>
+<li><p><code class="inline">:strings</code> - controls how strings (including keys) are decoded. Possible values are:</p>
+<ul>
+<li><code class="inline">:reference</code> (default) - when possible tries to create a sub-binary into the original
+</li>
+<li><code class="inline">:copy</code> - always copies the strings. This option is especially useful when parts of the
+  decoded data will be stored for a long time (in ets or some process) to avoid keeping
+  the reference to the original data.
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="decode/2-decoding-keys-to-atoms" class="section-heading">
+  <a href="#decode/2-decoding-keys-to-atoms" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Decoding keys to atoms
+</h2>
+
+<p>The <code class="inline">:atoms</code> option uses the <a href="https://hexdocs.pm/elixir/String.html#to_atom/1"><code class="inline">String.to_atom/1</code></a> call that can create atoms at runtime.
+Since the atoms are not garbage collected, this can pose a DoS attack vector when used
+on user-controlled data.</p>
+
+  </section>
+</div>
+<div class="detail" id="decode!/2">
+  
+  
+    <span id="decode!/1"></span>
+  
+  <div class="detail-header">
+    <a href="#decode!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">decode!(input, opts \\ [])</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L58" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>decode!(iodata(), [<a href="#t:decode_opt/0">decode_opt</a>()]) :: term() | no_return()</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Parses a JSON value from <code class="inline">input</code> iodata.</p>
+<p>Similar to <a href="#decode/2"><code class="inline">decode/2</code></a> except it will unwrap the error tuple and raise
+in case of errors.</p>
+
+  </section>
+</div>
+<div class="detail" id="encode/2">
+  
+  
+    <span id="encode/1"></span>
+  
+  <div class="detail-header">
+    <a href="#encode/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">encode(input, opts \\ [])</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L92" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>encode(term(), [<a href="#t:encode_opt/0">encode_opt</a>()]) ::
+  {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} |
+  {:error, <a href="Jason.EncodeError.html#t:t/0">Jason.EncodeError.t</a>()}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Generates JSON corresponding to <code class="inline">input</code>.</p>
+<p>The generation is controlled by the <a href="Jason.Encoder.html"><code class="inline">Jason.Encoder</code></a> protocol,
+please refer to the module to read more on how to define the protocol
+for custom data types.</p>
+<h2 id="encode/2-options" class="section-heading">
+  <a href="#encode/2-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+
+<ul>
+<li><p><code class="inline">:escape</code> - controls how strings are encoded. Possible values are:</p>
+<ul>
+<li><code class="inline">:json</code> (default) - the regular JSON escaping as defined by RFC 7159.
+</li>
+<li><code class="inline">:javascript</code> - additionally escapes the LINE SEPARATOR (U+2028) and
+  PARAGRAPH SEPARATOR (U+2029) characters to make the produced JSON
+  valid JavaSciprt.
+</li>
+<li><code class="inline">:html_safe</code> - similar to <code class="inline">:javascript</code>, but also escapes the <code class="inline">/</code>
+  caracter to prevent XSS.
+</li>
+<li><code class="inline">:unicode</code> - escapes all non-ascii characters.
+</li>
+</ul>
+</li>
+<li><p><code class="inline">:maps</code> - controls how maps are encoded. Possible values are:</p>
+<ul>
+<li><code class="inline">:strict</code> - checks the encoded map for duplicate keys and raises
+  if they appear. For example <code class="inline">%{:foo =&gt; 1, &quot;foo&quot; =&gt; 2}</code> would be
+  rejected, since both keys would be encoded to the string <code class="inline">&quot;foo&quot;</code>.
+</li>
+<li><code class="inline">:naive</code> (default) - does not perform the check.
+</li>
+</ul>
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="encode!/2">
+  
+  
+    <span id="encode!/1"></span>
+  
+  <div class="detail-header">
+    <a href="#encode!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">encode!(input, opts \\ [])</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L106" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>encode!(term(), [<a href="#t:encode_opt/0">encode_opt</a>()]) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | no_return()</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Generates JSON corresponding to <code class="inline">input</code>.</p>
+<p>Similar to <a href="#encode/1"><code class="inline">encode/1</code></a> except it will unwrap the error tuple and raise
+in case of errors.</p>
+
+  </section>
+</div>
+<div class="detail" id="encode_to_iodata/2">
+  
+  
+    <span id="encode_to_iodata/1"></span>
+  
+  <div class="detail-header">
+    <a href="#encode_to_iodata/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">encode_to_iodata(input, opts \\ [])</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L123" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>encode_to_iodata(term(), [<a href="#t:encode_opt/0">encode_opt</a>()]) ::
+  {:ok, iodata()} |
+  {:error, <a href="Jason.EncodeError.html#t:t/0">Jason.EncodeError.t</a>()}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Generates JSON corresponding to <code class="inline">input</code> and returns iodata.</p>
+<p>This function should be preferred to <a href="#encode/2"><code class="inline">encode/2</code></a>, if the generated
+JSON will be handed over to one of the IO functions or sent
+over the socket. The Erlang runtime is able to leverage vectorised
+writes and avoid allocating a continuous buffer for the whole
+resulting string, lowering memory use and increasing performance.</p>
+
+  </section>
+</div>
+<div class="detail" id="encode_to_iodata!/2">
+  
+  
+    <span id="encode_to_iodata!/1"></span>
+  
+  <div class="detail-header">
+    <a href="#encode_to_iodata!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">encode_to_iodata!(input, opts \\ [])</span>
+    
+      <a href="https://github.com/michalmuskala/jason/blob/v1.0.0/lib/jason.ex#L134" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>encode_to_iodata!(term(), [<a href="#t:encode_opt/0">encode_opt</a>()]) :: iodata() | no_return()</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Generates JSON corresponding to <code class="inline">input</code> and returns iodata.</p>
+<p>Similar to <a href="#encode_to_iodata/1"><code class="inline">encode_to_iodata/1</code></a> except it will unwrap the error tuple
+and raise in case of errors.</p>
+
+  </section>
+</div>
+
+        </section>
+      
+
+      
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.18.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-778c9ef903.js"></script>
+  
+  
+  
+  
+  </body>
+</html>
+

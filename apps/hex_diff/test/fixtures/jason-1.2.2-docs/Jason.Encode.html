@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.21.3">
+    <meta name="project" content="jason v1.2.2">
+    <title>Jason.Encode — jason v1.2.2</title>
+    <link rel="stylesheet" href="dist/elixir-0ab8a6a80ebaaa287431.css" />
+      <link rel="canonical" href="https://hexdocs.pm/jason/Jason.Encode.html" />
+    <script src="dist/sidebar_items-d50e6e05e4.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-a225d03098e64fef431a.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName">
+jason      </a>
+      <h2 class="sidebar-projectVersion">
+        v1.2.2
+      </h2>
+    </div>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">jason v1.2.2</small>
+Jason.Encode          <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L14" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Utilities for encoding elixir values to JSON.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:opts/0">opts()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#atom/2">atom(atom, arg)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#float/1">float(float)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#integer/1">integer(integer)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keyword/2">keyword(list, arg2)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list/2">list(list, arg)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#map/2">map(value, arg)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#string/2">string(string, arg)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#struct/2">struct(value, arg)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#value/2">value(value, arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Equivalent to calling the <a href="Jason.Encoder.html#encode/2"><code class="inline">Jason.Encoder.encode/2</code></a> protocol function.</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<section class="detail" id="t:opts/0">
+  <div class="detail-header">
+    <a href="#t:opts/0" class="detail-link" title="Link to this opaque">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this opaque</span>
+    </a>
+    <h1 class="signature">opts()</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L25" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <span class="note">(opaque)</span>
+      <div class="specs">
+          <pre>opts()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="atom/2">
+  <div class="detail-header">
+    <a href="#atom/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">atom(atom, arg)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L113" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>atom(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="float/1">
+  <div class="detail-header">
+    <a href="#float/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">float(float)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L129" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>float(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="integer/1">
+  <div class="detail-header">
+    <a href="#integer/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">integer(integer)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L124" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>integer(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="keyword/2">
+  <div class="detail-header">
+    <a href="#keyword/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">keyword(list, arg2)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L157" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>keyword(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="list/2">
+  <div class="detail-header">
+    <a href="#list/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">list(list, arg)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L134" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>list(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="map/2">
+  <div class="detail-header">
+    <a href="#map/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">map(value, arg)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L163" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>map(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="string/2">
+  <div class="detail-header">
+    <a href="#string/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">string(string, arg)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L253" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>string(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="struct/2">
+  <div class="detail-header">
+    <a href="#struct/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">struct(value, arg)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L212" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>struct(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">struct</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="value/2">
+  <div class="detail-header">
+    <a href="#value/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">value(value, arg)</h1>
+      <a href="https://github.com/michalmuskala/jason/blob/v1.2.2/lib/encode.ex#L69" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+      <div class="specs">
+          <pre>value(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(), <a href="#t:opts/0">opts</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Equivalent to calling the <a href="Jason.Encoder.html#encode/2"><code class="inline">Jason.Encoder.encode/2</code></a> protocol function.</p>
+<p>Slightly more efficient for built-in types because of the internal dispatching.</p>
+  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.21.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>
