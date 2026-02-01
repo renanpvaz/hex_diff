@@ -17,7 +17,7 @@ defmodule HexDiffWeb.Router do
   scope "/", HexDiffWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", Live.HomeLive
   end
 
   # Other scopes may use custom stacks.

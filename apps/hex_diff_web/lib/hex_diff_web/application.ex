@@ -12,6 +12,7 @@ defmodule HexDiffWeb.Application do
       # Start a worker by calling: HexDiffWeb.Worker.start_link(arg)
       # {HexDiffWeb.Worker, arg},
       # Start to serve requests, typically the last entry
+      {Phoenix.PubSub, name: HexDiff.PubSub},
       HexDiffWeb.Endpoint
     ]
 

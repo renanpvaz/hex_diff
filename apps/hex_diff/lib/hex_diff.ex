@@ -1,4 +1,7 @@
 defmodule HexDiff do
+
+  require Logger
+
   alias HexDiff.Resolvers
   alias HexDiff.AST
   alias HexDiff.Differ
@@ -13,6 +16,7 @@ defmodule HexDiff do
   #
   def run(package_name, newer_version, older_version) do
     IO.puts("DIFF: #{package_name} #{older_version} - #{newer_version}")
+    Logger.info("hexdiff.run", package: package_name, versions: [newer_version, older_version])
 
     {:ok, new_scraped_data} = Resolvers.Scraper.resolve(package_name, newer_version)
     {:ok, old_scraped_data} = Resolvers.Scraper.resolve(package_name, older_version)
@@ -32,6 +36,8 @@ defmodule HexDiff do
 
     IO.inspect(diff.changed)
 
-    IO.puts(Outputs.Text.encode(diff))
+    result = Outputs.Text.encode(diff)
+    IO.puts(result)
+    result
   end
 end

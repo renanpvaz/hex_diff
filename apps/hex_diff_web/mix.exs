@@ -47,7 +47,9 @@ defmodule HexDiffWeb.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:hex_diff, in_umbrella: true},
       {:jason, "~> 1.2"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.3", runtime: Mix.env() == :dev}
     ]
   end
 
